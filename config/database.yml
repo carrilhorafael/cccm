@@ -17,9 +17,12 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  pool: 5
+  username: postgres
+  password: 123
+  host: <%= ENV['DB_DOCKER_HOST'] || 'localhost' %>
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
@@ -82,5 +85,3 @@ test:
 production:
   <<: *default
   database: cccm_back_production
-  username: cccm_back
-  password: <%= ENV['CCCM_BACK_DATABASE_PASSWORD'] %>
