@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  password_digest: MyString
+  name: MyString
+  is_master: false
+  is_manager: false
+  last_time_logged_at: 2021-11-15 20:51:35
+  validation_token: MyString
+  validation_token_sent_at: 2021-11-15 20:51:35
+  birthdate: 2021-11-15
+  marital_status: 1
+  location: MyString
+  branch: 1
+  member_since: 2021-11-15 20:51:35
+  is_baptized: false
+
+two:
+  email: MyString
+  password_digest: MyString
+  name: MyString
+  is_master: false
+  is_manager: false
+  last_time_logged_at: 2021-11-15 20:51:35
+  validation_token: MyString
+  validation_token_sent_at: 2021-11-15 20:51:35
+  birthdate: 2021-11-15
+  marital_status: 1
+  location: MyString
+  branch: 1
+  member_since: 2021-11-15 20:51:35
+  is_baptized: false

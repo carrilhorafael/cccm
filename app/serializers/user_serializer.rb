@@ -1,0 +1,3 @@
+class UserSerializer < ActiveModel::Serializer
+  attributes :id, :name, :email, :is_baptized, :last_time_logged_at, :age, :birthdate, :marital_status, :location, :branch
+end
