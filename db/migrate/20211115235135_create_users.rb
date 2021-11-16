@@ -4,6 +4,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :email
       t.string :password_digest
       t.string :name
+      t.string :cpf
+      t.string :rg
       t.boolean :is_master, default: false
       t.boolean :is_manager, default: false
       t.datetime :last_time_logged_at
