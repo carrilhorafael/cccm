@@ -2,7 +2,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  validates :name, :email, :birthdate, :password_confirmation, :birthdate, :marital_status, :location, :branch, :is_baptized, presence: true
+  validates :name, :email, :cpf, :rg, :birthdate, :password_confirmation, :marital_status, :location, :branch, :is_baptized, presence: true
   validates :email, format: {with: /\b[0-9._%a-z\-]+@[a-z]{2, 3}\z/, message: "O email deve ser do domínio IN Junior"}, uniqueness: { case_sensitive: true }
   validate :birthdate_must_be_past
   before_create :setter_conditions
@@ -13,6 +13,7 @@ class User < ApplicationRecord
     "Casado(a)": 1,
     "Viúvo(a)": 2,
     "Divorciado(a)": 3,
+    "Separado(a)": 4
   }
 
   enum gender:{

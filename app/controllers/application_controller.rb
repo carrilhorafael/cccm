@@ -23,4 +23,12 @@ class ApplicationController < ActionController::API
     user = User.find_by(id: @decoded[0]['user_id'])
     return user
   end
+
+  def validate_token
+    if current_user.present?
+      render json: current_user, serializer: UserSerializer
+    else
+      render json: {message: "Não é mais válido"}, status: 403
+    end
+  end
 end
