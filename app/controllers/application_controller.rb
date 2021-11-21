@@ -24,12 +24,11 @@ class ApplicationController < ActionController::API
     return user
   end
 
-  def validate_token
+  def validate_user
     if current_user.present?
-      render json: current_user, serializer: UserSerializer
+      render json: current_user
     else
       render json: {message: "Não é mais válido"}, status: 403
     end
   end
 end
- 
