@@ -19,20 +19,17 @@ ActiveRecord::Schema.define(version: 2021_11_15_235135) do
     t.string "email"
     t.string "password_digest"
     t.string "name"
-    t.string "cpf"
-    t.string "rg"
-    t.boolean "is_master", default: false
-    t.boolean "is_manager", default: false
+    t.integer "kind", default: -1
     t.datetime "last_time_logged_at"
     t.string "validation_token"
     t.datetime "validation_token_sent_at"
+    t.datetime "access_garantied_at"
     t.date "birthdate"
     t.integer "marital_status"
     t.string "location"
-    t.integer "branch", default: 0
     t.date "member_since"
     t.boolean "is_baptized", default: false
-    t.integer "gender", default: 0
+    t.integer "gender"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

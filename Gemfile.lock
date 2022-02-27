@@ -83,6 +83,10 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
+    interactor (3.1.2)
+    interactor-rails (2.2.1)
+      interactor (~> 3.0)
+      rails (>= 4.2)
     jsonapi-renderer (0.2.2)
     jwt (2.3.0)
     listen (3.7.0)
@@ -107,9 +111,6 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.9.0)
-      byebug (~> 11.0)
-      pry (~> 0.13.0)
     puma (5.5.2)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -173,10 +174,11 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   faker
+  interactor-rails
   jwt
   listen (~> 3.3)
   pg (~> 1.1)
-  pry-byebug
+  pry
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.1)

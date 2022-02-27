@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :verify_authenticated
-  before_action :verify_manager_authenticated
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -17,12 +16,29 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    action = User::Create.call(
+      performer: current_user,
+      user_params: user_params
+    )
 
-    if @user.save
-      render json: @user, status: :created
+    if action.success?
+      render json: action.user, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: action.error, status: :unprocessable_entity
+    end
+  end
+
+  def grant_access
+    action = User::GrantAccess.call(
+      user: user,
+      performer: current_user,
+      kind: params[:kind]
+    )
+
+    if action.success?
+      render json: action.user
+    else
+      render json: action.error, status: :unprocessable_entity
     end
   end
 
@@ -48,6 +64,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :name, :cpf, :rg, :is_master, :is_manager, :birthdate, :marital_status, :location, :branch, :member_since, :is_baptized)
+      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :branch, :member_since, :is_baptized)
     end
 end

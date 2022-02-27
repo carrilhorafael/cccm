@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: "CCCM <cccm.notifications@gmail.com>"
   layout 'mailer'
 end

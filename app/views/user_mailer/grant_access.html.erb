@@ -1,0 +1,13 @@
+<main>
+  <section>
+    <p>
+      Olá <%= @user.name %>! Você foi adicionado ao sistema de gestão da CCCM por <%= @performer.name %>.
+      Acesse o sistema clicando no link abaixo, para confirmar sua conta e trocar sua senha:
+    </p>
+    <%= link_to "Acessar sistema", "http://localhost:3000/account?key=" + @user.validate_token %>
+    <p>
+      Esse é um email disparado automaticamente pelo sistema, não responda!
+    </p>
+  </section>
+</main>
+
