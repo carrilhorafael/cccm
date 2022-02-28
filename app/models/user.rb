@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   # has_many :ministeries, through: :memberships
 
   validates :name, :email, :birthdate, :marital_status, :location, presence: true

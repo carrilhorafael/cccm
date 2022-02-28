@@ -1,6 +1,6 @@
 class Ministery < ApplicationRecord
   belongs_to :church
-  has_many :memberships, as: :collection
+  has_many :memberships, as: :collection, dependent: :destroy
 
   validates :name, :description, presence: true
   validate :ministery_must_be_uniqueness_by_church
