@@ -47,10 +47,6 @@ class User < ApplicationRecord
     self.password_confirmation = self.password
   end
 
-  def send_create_notification
-    #notification by email
-  end
-
   def is_admin?
     self.pastor_president? || self.pastor?
   end

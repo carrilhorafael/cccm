@@ -25,7 +25,11 @@ class User::GrantAccess < User::Base
 
   def update_user!
     user.kind = kind
-    user.access_garantied_at = Time.now if grant_new_access?
+    if grant_new_access?
+      user.access_garantied_at = Time.now
+      user.validation_token = SecureRandom.alphanumeric(24)
+      user.validation_token_sent_at = Time.now
+    end
     user.save!
   end
 

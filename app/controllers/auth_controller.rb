@@ -1,13 +1,15 @@
 class AuthController < ApplicationController
   def login
-    @user = User.find_by(email: params[:user][:email])
-    @user = @user&.authenticate(params[:user][:password])
-    if @user
-      token = JsonWebToken::Base.encode(user_id: @user.id)
-      @user.update!(last_time_logged_at: Time.zone.now)
-      render json: {token: token, user: UserSerializer.new(@user)}
+    action = User::Login.call(email: params[:user][:email], password: params[:user][:password])
+
+    if action.success?
+      render json: { token: action.token, user: UserSerializer.new(action.user) }
     else
-      render json: {message: "Não foi possível fazer o login"}
+      render json: { message: action.error }, status: :unprocessable_entity
     end
+  end
+
+  def reset
+
   end
 end
