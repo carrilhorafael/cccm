@@ -4,8 +4,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :email
       t.string :password_digest
       t.string :name
-      t.integer :kind, default: -1
       t.datetime :last_time_logged_at
+      t.boolean :president_pastor, default: false
       t.string :validation_token
       t.datetime :validation_token_sent_at
       t.datetime :access_garantied_at

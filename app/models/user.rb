@@ -1,9 +1,10 @@
 class User < ApplicationRecord
-  belongs_to :church
-
   has_secure_password
 
-  validates :name, :email, :birthdate, :marital_status, :location, :branch, :is_baptized, presence: true
+  has_many :memberships
+  # has_many :ministeries, through: :memberships
+
+  validates :name, :email, :birthdate, :marital_status, :location, presence: true
   validates :password_confirmation, presence: true, :if => :password
   validates :email, uniqueness: { case_sensitive: true }
   validate :birthdate_must_be_past
@@ -21,13 +22,6 @@ class User < ApplicationRecord
     "Feminino": 1
   }
 
-  enum kind:{
-    "member_without_access": -1,
-    "member": 0,
-    "pastor": 1,
-    "pastor_president": 2
-  }
-
   def age
     ((Date.today - self.birthdate)/365.25).to_i
   end
@@ -43,12 +37,21 @@ class User < ApplicationRecord
     self.password_confirmation = self.password
   end
 
-  def is_admin?
-    self.pastor_president? || self.pastor?
+  def access_garantied_by
+    return unless self.has_access?
+    User.find_by(id: self.access_garantied_by_user_id).name || "usuário excluído"
   end
 
-  def access_garantied_by
-    return if self.member_without_access?
-    User.find_by(id: self.access_garantied_by_user_id) || "usuário excluído"
+  def has_access?
+    self.access_garantied_at != nil
+  end
+
+  def church
+    membership = self.memberships.find_by(collection_type: "Church")
+    membership&.collection.as_json.merge({ is_leader: membership.is_leader, title: membership.title })
+  end
+
+  def ministeries
+    self.memberships.where(collection_type: "Ministery")&.order('is_leader DESC').map { |membership| membership.collection.as_json.merge({ is_leader: membership.is_leader, title: membership.title }) }
   end
 end

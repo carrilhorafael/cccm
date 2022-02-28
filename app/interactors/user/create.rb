@@ -11,7 +11,7 @@ class User::Create < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não pode cadastrar um membro com este nível de permissão") unless performer.is_admin?
+    context.fail!(error: "Você não pode cadastrar um membro com este nível de permissão") unless context.church.can_edit(performer)
   end
 
   def build_user

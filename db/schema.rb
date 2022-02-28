@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_134718) do
+ActiveRecord::Schema.define(version: 2022_02_28_145712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 2022_02_28_134718) do
     t.boolean "is_head"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "is_leader", default: false
+    t.string "title"
+    t.string "collection_type", null: false
+    t.bigint "collection_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["collection_type", "collection_id"], name: "index_memberships_on_collection"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "ministeries", force: :cascade do |t|
@@ -36,8 +48,8 @@ ActiveRecord::Schema.define(version: 2022_02_28_134718) do
     t.string "email"
     t.string "password_digest"
     t.string "name"
-    t.integer "kind", default: -1
     t.datetime "last_time_logged_at"
+    t.boolean "president_pastor", default: false
     t.string "validation_token"
     t.datetime "validation_token_sent_at"
     t.datetime "access_garantied_at"
@@ -50,10 +62,8 @@ ActiveRecord::Schema.define(version: 2022_02_28_134718) do
     t.integer "gender"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "church_id", null: false
-    t.index ["church_id"], name: "index_users_on_church_id"
   end
 
+  add_foreign_key "memberships", "users"
   add_foreign_key "ministeries", "churches"
-  add_foreign_key "users", "churches"
 end

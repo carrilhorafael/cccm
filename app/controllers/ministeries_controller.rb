@@ -1,4 +1,6 @@
 class MinisteriesController < ApplicationController
+  before_action :verify_authenticated
+  before_action :set_church, only: [:create, :index]
   before_action :set_ministery, only: [:show, :update, :destroy]
 
   # GET /ministeries
@@ -15,7 +17,11 @@ class MinisteriesController < ApplicationController
 
   # POST /ministeries
   def create
-    @ministery = Ministery.new(ministery_params)
+    @ministery = Ministery::Create.call(
+      performer: current_user,
+      church: @church,
+      ministery_params: ministery_params
+    )
 
     if @ministery.save
       render json: @ministery, status: :created, location: @ministery

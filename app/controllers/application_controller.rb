@@ -23,4 +23,8 @@ class ApplicationController < ActionController::API
       render json: {message: "Não é mais válido"}, status: 403
     end
   end
+
+  def set_church
+    @church = Church.find(params[:church_id])
+  end
 end

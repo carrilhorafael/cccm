@@ -33,8 +33,7 @@ class UsersController < ApplicationController
   def grant_access
     action = User::GrantAccess.call(
       user: user,
-      performer: current_user,
-      kind: params[:kind]
+      performer: current_user
     )
 
     if action.success?
@@ -60,9 +59,7 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_church
-      @church = Church.find(church_id)
-    end
+
 
     def set_user
       @user = User.find(params[:id])
@@ -71,9 +68,5 @@ class UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :member_since, :is_baptized)
-    end
-
-    def church_id
-      params.require(:user).permit(:church_id)[:church_id]
     end
 end
