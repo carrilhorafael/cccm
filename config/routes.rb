@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :ministeries
+  resources :churches
   get '/validate_user', to: "application#validate_user"
   post "/auth/login", to: "auth#login"
   resources :users

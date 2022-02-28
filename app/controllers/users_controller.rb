@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :verify_authenticated
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_church, only: :create
 
   # GET /users
   def index
@@ -19,6 +20,7 @@ class UsersController < ApplicationController
     action = User::Create.call(
       performer: current_user,
       user_params: user_params
+      church: @church
     )
 
     if action.success?
@@ -58,12 +60,20 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_church
+      @church = Church.find(church_id)
+    end
+
     def set_user
       @user = User.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :branch, :member_since, :is_baptized)
+      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :member_since, :is_baptized)
+    end
+
+    def church_id
+      params.require(:user).permit(:church_id)[:church_id]
     end
 end

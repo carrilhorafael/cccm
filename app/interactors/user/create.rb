@@ -15,7 +15,7 @@ class User::Create < User::Base
   end
 
   def build_user
-    context.user = User.new(user_params)
+    context.user = context.church.users.build(user_params)
   end
 
   def validate_model

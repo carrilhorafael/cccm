@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  belongs_to :church
 
   has_secure_password
 
@@ -18,11 +19,6 @@ class User < ApplicationRecord
   enum gender:{
     "Masculino": 0,
     "Feminino": 1
-  }
-
-  enum branch:{
-    "Brasilândia": 0,
-    "Barro Vermelho": 1
   }
 
   enum kind:{
