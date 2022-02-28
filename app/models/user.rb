@@ -50,4 +50,9 @@ class User < ApplicationRecord
   def is_admin?
     self.pastor_president? || self.pastor?
   end
+
+  def access_garantied_by
+    return if self.member_without_access?
+    User.find_by(id: self.access_garantied_by_user_id) || "usuário excluído"
+  end
 end

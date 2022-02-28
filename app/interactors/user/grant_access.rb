@@ -27,6 +27,7 @@ class User::GrantAccess < User::Base
     user.kind = kind
     if grant_new_access?
       user.access_garantied_at = Time.now
+      user.access_garantied_by_user_id = performer.id
       user.validation_token = SecureRandom.alphanumeric(24)
       user.validation_token_sent_at = Time.now
     end

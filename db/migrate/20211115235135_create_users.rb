@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :validation_token
       t.datetime :validation_token_sent_at
       t.datetime :access_garantied_at
+      t.integer :access_garantied_by_user_id
       t.date :birthdate
       t.integer :marital_status
       t.string :location
