@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   # has_many :ministeries, through: :memberships
 
-  validates :name, :email, :birthdate, :marital_status, :location, presence: true
+  validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
   validates :email, uniqueness: { case_sensitive: true }
   validate :birthdate_must_be_past

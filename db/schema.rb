@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
     t.string "email"
     t.string "password_digest"
     t.string "name"
+    t.string "phone"
     t.datetime "last_time_logged_at"
     t.boolean "president_pastor", default: false
     t.string "validation_token"
