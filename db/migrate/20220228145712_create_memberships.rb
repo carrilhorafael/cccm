@@ -3,8 +3,7 @@ class CreateMemberships < ActiveRecord::Migration[6.1]
     create_table :memberships do |t|
       t.references :user, null: false, foreign_key: true
       t.boolean :is_leader, default: false
-      t.string :title
-      t.references :collection, null: false, polymorphic: true
+      t.references :ministery, null: false, foreign_key: true
 
       t.timestamps
     end

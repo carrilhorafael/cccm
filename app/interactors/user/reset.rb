@@ -16,7 +16,7 @@ class User::Reset < User::Base
   end
 
   def check_consistency
-    context.fail!(error: "Você não tem permissão para essa ação") unless user.member_without_access?
+    context.fail!(error: "Você não tem permissão para essa ação") unless user.has_access?
     context.fail!(error: "Esse token já não é mais válido") if Time.now > user.validation_token_sent_at + 8.hours
   end
 

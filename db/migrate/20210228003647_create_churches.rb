@@ -3,7 +3,7 @@ class CreateChurches < ActiveRecord::Migration[6.1]
     create_table :churches do |t|
       t.string :name
       t.string :location
-      t.boolean :is_head
+      t.boolean :is_head, default: false
 
       t.timestamps
     end

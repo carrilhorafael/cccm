@@ -13,6 +13,7 @@ class UserSerializer < ActiveModel::Serializer
     :has_access,
     :access_garantied_by,
     :access_garantied_at,
-    :ministeries,
-    :church
+    :ministeries
+
+  belongs_to :church
 end

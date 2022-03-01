@@ -6,6 +6,7 @@ class User::Create < User::Base
     user.set_default_password
     validate_model
     user.save!
+
   end
 
   private
@@ -15,7 +16,7 @@ class User::Create < User::Base
   end
 
   def build_user
-    context.user = context.church.users.build(user_params)
+    context.user = User.new(user_params)
   end
 
   def validate_model

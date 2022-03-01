@@ -6,9 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(
+User.create!(
   name: "Rafael Carrilho",
   email: "rafael.carrilho@id.uff.br",
+  phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}"
   password: "12345678",
   password_confirmation: "12345678",
   birthdate: "16/02/2000",
@@ -17,58 +18,28 @@ User.create(
   branch: 1,
   member_since: "15/11/2021",
   is_baptized: true,
-  kind: 2
+  president_pastor: true
+)
+
+church = Church.create!(
+  name: "Brasilândia",
+  location: "Rua da Brasilandia, 123, Brasilandia, São Gonçalo, Rio de Janeiro",
+  is_head: true
 )
 
 20.times do
   User.create(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    cpf: Faker::IDNumber.brazilian_citizen_number(formatted: true),
-    rg: Faker::IDNumber.brazilian_id(formatted: true),
+    phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}"
     password: "12345678",
     password_confirmation: "12345678",
-    is_manager: false,
-    is_master: false,
     birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
     marital_status: rand(0..4),
     location: Faker::Address.full_address,
-    branch: rand(0..1),
     member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
     is_baptized: true
   )
 end
 
-20.times do
-  User.create(
-    name: Faker::Name.name,
-    email: Faker::Internet.email,
-    cpf: Faker::IDNumber.brazilian_citizen_number(formatted: true),
-    rg: Faker::IDNumber.brazilian_id(formatted: true),
-    password: "12345678",
-    password_confirmation: "12345678",
-    birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
-    marital_status: rand(0..4),
-    location: Faker::Address.full_address,
-    branch: rand(0..1),
-    member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
-    is_baptized: true
-  )
-end
 
-20.times do
-  User.create(
-    name: Faker::Name.name,
-    email: Faker::Internet.email,
-    cpf: Faker::IDNumber.brazilian_citizen_number(formatted: true),
-    rg: Faker::IDNumber.brazilian_id(formatted: true),
-    password: "12345678",
-    password_confirmation: "12345678",
-    birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
-    marital_status: rand(0..4),
-    location: Faker::Address.full_address,
-    branch: rand(0..1),
-    member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
-    is_baptized: true
-  )
-end

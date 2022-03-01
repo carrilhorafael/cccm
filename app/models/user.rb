@@ -2,7 +2,8 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :memberships, dependent: :destroy
-  # has_many :ministeries, through: :memberships
+  belongs_to :church
+  has_many :ministeries, through: :memberships
 
   validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
@@ -35,11 +36,6 @@ class User < ApplicationRecord
   def set_default_password
     self.password = SecureRandom.alphanumeric(36)
     self.password_confirmation = self.password
-  end
-
-  def access_garantied_by
-    return unless self.has_access?
-    User.find_by(id: self.access_garantied_by_user_id).name || "usuário excluído"
   end
 
   def has_access?

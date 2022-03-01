@@ -16,7 +16,7 @@ class User::GrantAccess < User::Base
   end
 
   def initialize_context
-    context.grant_new_access = user.member_without_access?
+    context.grant_new_access = user.has_access?
   end
 
   def grant_new_access?
@@ -27,7 +27,7 @@ class User::GrantAccess < User::Base
     user.kind = kind
     if grant_new_access?
       user.access_garantied_at = Time.now
-      user.access_garantied_by_user_id = performer.id
+      user.access_garantied_by = performer.name
       user.validation_token = SecureRandom.alphanumeric(24)
       user.validation_token_sent_at = Time.now
     end

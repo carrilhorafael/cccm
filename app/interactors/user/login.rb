@@ -15,7 +15,7 @@ class User::Login < User::Base
   end
 
   def check_consistency
-    context.fail!(error: "Você não tem acesso ao sistema") if user.member_without_access?
+    context.fail!(error: "Você não tem acesso ao sistema") if user.has_access?
   end
 
   def authenticate_user

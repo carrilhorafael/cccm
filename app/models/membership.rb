@@ -1,4 +1,4 @@
 class Membership < ApplicationRecord
   belongs_to :user
-  belongs_to :collection, polymorphic: true
+  belongs_to :ministery
 end

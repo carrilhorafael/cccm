@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
   create_table "churches", force: :cascade do |t|
     t.string "name"
     t.string "location"
-    t.boolean "is_head"
+    t.boolean "is_head", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -26,12 +26,10 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.boolean "is_leader", default: false
-    t.string "title"
-    t.string "collection_type", null: false
-    t.bigint "collection_id", null: false
+    t.bigint "ministery_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["collection_type", "collection_id"], name: "index_memberships_on_collection"
+    t.index ["ministery_id"], name: "index_memberships_on_ministery_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
@@ -49,12 +47,14 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
     t.string "password_digest"
     t.string "name"
     t.string "phone"
+    t.string "title"
     t.datetime "last_time_logged_at"
     t.boolean "president_pastor", default: false
     t.string "validation_token"
     t.datetime "validation_token_sent_at"
     t.datetime "access_garantied_at"
-    t.integer "access_garantied_by_user_id"
+    t.integer "access_garantied_by"
+    t.bigint "church_id"
     t.date "birthdate"
     t.integer "marital_status"
     t.string "location"
@@ -63,8 +63,11 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
     t.integer "gender"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["church_id"], name: "index_users_on_church_id"
   end
 
+  add_foreign_key "memberships", "ministeries"
   add_foreign_key "memberships", "users"
   add_foreign_key "ministeries", "churches"
+  add_foreign_key "users", "churches"
 end
