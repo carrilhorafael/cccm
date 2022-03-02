@@ -25,8 +25,9 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
 
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.boolean "is_leader", default: false
     t.bigint "ministery_id", null: false
+    t.string "notes"
+    t.boolean "is_leader", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ministery_id"], name: "index_memberships_on_ministery_id"
@@ -48,12 +49,13 @@ ActiveRecord::Schema.define(version: 2022_02_28_145712) do
     t.string "name"
     t.string "phone"
     t.string "title"
+    t.boolean "is_leader", default: false
     t.datetime "last_time_logged_at"
     t.boolean "president_pastor", default: false
     t.string "validation_token"
     t.datetime "validation_token_sent_at"
     t.datetime "access_garantied_at"
-    t.integer "access_garantied_by"
+    t.string "access_garantied_by"
     t.bigint "church_id"
     t.date "birthdate"
     t.integer "marital_status"

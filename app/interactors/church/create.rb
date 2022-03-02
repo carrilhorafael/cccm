@@ -13,7 +13,7 @@ class Church::Create < Church::Base
   private
 
   def check_authorization
-    context.fail!(error: "Somente o pastor presidente pode executar essa ação") if performer.pastor_president?
+    context.fail!(error: "Somente o pastor presidente pode executar essa ação") unless performer.president_pastor?
   end
 
   def build_church

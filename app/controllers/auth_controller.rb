@@ -10,6 +10,17 @@ class AuthController < ApplicationController
   end
 
   def reset
+    key = params[:key]
+
+    action = User::Reset.call(
+      key: params[:key],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation],
+    )
+
+    if action.fail?
+      render json:{ message: action.error }, status: :unprocessable_entity
+    end
 
   end
 end

@@ -1,11 +1,11 @@
 class User::Reset < User::Base
 
   def call
+    context.fail!(error: "Operação invalida sem a chave de acesso") unless context.key
     find_user
     check_consistency
     update_password
     validate_model
-    reset_validation_token
     user.save!
   end
 
@@ -17,7 +17,7 @@ class User::Reset < User::Base
 
   def check_consistency
     context.fail!(error: "Você não tem permissão para essa ação") unless user.has_access?
-    context.fail!(error: "Esse token já não é mais válido") if Time.now > user.validation_token_sent_at + 8.hours
+    context.fail!(error: "Esse token já não é mais válido") if Time.zone.now > user.validation_token_sent_at + 8.hours
   end
 
   def update_password

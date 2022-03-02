@@ -6,6 +6,6 @@ class Church::Base
   end
 
   def performer
-    context.church
+    context.performer
   end
 end

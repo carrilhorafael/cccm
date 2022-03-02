@@ -1,6 +1,6 @@
 class Church < ApplicationRecord
   has_many :ministeries, dependent: :destroy
-  has_many :memberships, as: :collection, dependent: :destroy
+  has_many :users
 
   validates :name, :location, presence: true
   validate :church_must_be_unique
@@ -11,11 +11,11 @@ class Church < ApplicationRecord
     end
   end
 
-  def can_edit(user)
-    user.pastor_president?
+  def can_edit?(user)
+    self.leaders.include?(user)
   end
 
-  def members
-    self.memberships&.order('is_leader DESC').map { |membership| membership.user.as_json.merge({is_leader: membership.is_leader, title: membership.title}) }
+  def leaders
+    self.users.where(is_leader: true)
   end
 end

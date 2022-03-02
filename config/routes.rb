@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  resources :users, except: :create
+  put "/users/:id/grant_access", to: "users#grant_access"
+  get '/ministeries/:id/memberships', to: "ministeries#memberships"
+  post '/ministeries/:id/memberships', to: "ministeries#create_membership"
   resources :churches do
-    resources :users, only: :create
-    resources :ministeries
+    resources :users, only: [:index, :create]
+    resources :ministeries, only: [:index, :create]
   end
   get '/validate_user', to: "application#validate_user"
   post "/auth/login"

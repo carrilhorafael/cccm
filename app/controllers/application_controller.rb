@@ -11,7 +11,6 @@ class ApplicationController < ActionController::API
     return nil unless header.present?
     @decoded = JsonWebToken::Base.decode(header)
     return nil unless @decoded
-
     user = User.find_by(id: @decoded[0]['user_id'])
     return user
   end

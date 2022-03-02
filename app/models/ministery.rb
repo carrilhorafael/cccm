@@ -1,7 +1,7 @@
 class Ministery < ApplicationRecord
   belongs_to :church
   has_many :memberships, dependent: :destroy
-  has_many :users
+  has_many :users, through: :memberships
 
   validates :name, :description, presence: true
   validate :ministery_must_be_uniqueness_by_church
@@ -12,7 +12,11 @@ class Ministery < ApplicationRecord
     end
   end
 
-  def members
-    self.memberships&.order('is_leader DESC').map { |membership| membership.user.as_json.merge({is_leader: membership.is_leader, title: membership.title}) }
+  def can_edit?(user)
+    church.leaders.include?(user) || self.leaders.include?(user)
+  end
+
+  def leaders
+    self.memberships.where(is_leader: true).map(&:user)
   end
 end

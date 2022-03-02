@@ -15,7 +15,7 @@ class User::Login < User::Base
   end
 
   def check_consistency
-    context.fail!(error: "Você não tem acesso ao sistema") if user.has_access?
+    context.fail!(error: "Você não tem acesso ao sistema") unless user.has_access?
   end
 
   def authenticate_user
@@ -23,10 +23,10 @@ class User::Login < User::Base
   end
 
   def generate_token
-    context.token = JsonWebToken::Base.encode(user.id)
+    context.token = JsonWebToken::Base.encode({user_id: user.id})
   end
 
   def update_last_login_at
-    user.update!(last_time_logged_at: Time.now)
+    user.update!(last_time_logged_at: Time.zone.now)
   end
 end

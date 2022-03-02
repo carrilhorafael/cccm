@@ -41,13 +41,4 @@ class User < ApplicationRecord
   def has_access?
     self.access_garantied_at != nil
   end
-
-  def church
-    membership = self.memberships.find_by(collection_type: "Church")
-    membership&.collection.as_json.merge({ is_leader: membership.is_leader, title: membership.title })
-  end
-
-  def ministeries
-    self.memberships.where(collection_type: "Ministery")&.order('is_leader DESC').map { |membership| membership.collection.as_json.merge({ is_leader: membership.is_leader, title: membership.title }) }
-  end
 end

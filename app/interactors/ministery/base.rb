@@ -10,6 +10,6 @@ class Ministery::Base
   end
 
   def performer
-    context.church
+    context.performer
   end
 end

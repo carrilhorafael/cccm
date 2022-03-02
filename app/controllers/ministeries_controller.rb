@@ -1,13 +1,35 @@
 class MinisteriesController < ApplicationController
   before_action :verify_authenticated
   before_action :set_church, only: [:create, :index]
-  before_action :set_ministery, only: [:show, :update, :destroy]
+  before_action :set_ministery, only: [:memberships, :create_membership, :show, :update, :destroy]
 
   # GET /ministeries
   def index
-    @ministeries = Ministery.all
+    @ministeries = @church.ministeries
 
     render json: @ministeries
+  end
+
+  def memberships
+    @users = @ministery.memberships
+
+    render json: @users
+  end
+
+  def create_membership
+    action = Ministery::CreateMembership.call(
+      ministery: @ministery,
+      performer: current_user,
+      user_id: membership_params[:user_id],
+      is_leader: membership_params[:is_leader],
+      notes: membership_params[:notes]
+    )
+
+    if action.success?
+      render json: action.membership, status: :created
+    else
+      render json: { message: action.error }, status: :unprocessable_entity
+    end
   end
 
   # GET /ministeries/1
@@ -17,16 +39,17 @@ class MinisteriesController < ApplicationController
 
   # POST /ministeries
   def create
-    @ministery = Ministery::Create.call(
+    action = Ministery::Create.call(
       performer: current_user,
       church: @church,
-      ministery_params: ministery_params
+      ministery_params: ministery_params,
+      leaders_ids: leaders_ids
     )
 
-    if @ministery.save
-      render json: @ministery, status: :created, location: @ministery
+    if action.success?
+      render json: action.ministery, status: :created
     else
-      render json: @ministery.errors, status: :unprocessable_entity
+      render json: { message: action.error }, status: :unprocessable_entity
     end
   end
 
@@ -52,6 +75,14 @@ class MinisteriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ministery_params
-      params.require(:ministery).permit(:name, :description, :church_id)
+      params.require(:ministery).permit(:name, :description)
+    end
+
+    def membership_params
+      params.require(:membership).permit(:user_id, :is_leader, :notes)
+    end
+
+    def leaders_ids
+      params[:ministery][:leaders_ids]
     end
 end
