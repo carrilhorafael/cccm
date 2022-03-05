@@ -2,6 +2,7 @@ class User::GrantAccess < User::Base
 
   def call
     check_authorization
+    check_consistency
     update_user
     user.save!
     send_access_notification
@@ -13,8 +14,8 @@ class User::GrantAccess < User::Base
     context.fail!(error: "Você não dar acesso ao sistema com este nível de permissão") unless context.church.can_edit?(performer)
   end
 
-  def grant_new_access?
-    context.grant_new_access
+  def check_consistency
+    context.fail!(error: "Esse usuário já tem acesso ao sistema") if user.has_access?
   end
 
   def update_user

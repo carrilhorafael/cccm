@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :verify_authenticated
-  before_action :set_user, only: [:show, :update, :destroy, :grant_access]
+  before_action :set_user, only: [:show, :update, :destroy, :grant_access, :revoke_access]
   before_action :set_church, only: [:create, :index]
 
   # GET /users
@@ -39,6 +39,19 @@ class UsersController < ApplicationController
       access_params: access_params
     )
 
+    if action.success?
+      render json: action.user
+    else
+      render json: action.error, status: :unprocessable_entity
+    end
+  end
+
+  def revoke_access
+    action = User::RevokeAccess.call(
+      user: @user,
+      performer: current_user,
+      church: @user.church
+    )
     if action.success?
       render json: action.user
     else
