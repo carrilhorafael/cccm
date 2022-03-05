@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def create_user(**args)
+  u = User.new(args)
+  u.set_default_password
+  u.save
+end
+
 church = Church.create(
   name: "Brasilândia",
   location: "Rua da Brasilandia, 123, Brasilandia, São Gonçalo, Rio de Janeiro",
@@ -31,23 +37,67 @@ User.create(
   is_leader: true
 )
 
+Church.create(
+  name: "Pita",
+  location: "Rua do Pita, 123, Pita, São Gonçalo, Rio de Janeiro"
+)
 
+Church.create(
+  name: "Porto",
+  location: "Rua do Porto, 123, Porto, São Gonçalo, Rio de Janeiro"
+)
+titles = ["Pastor(a)", "Obreiro(a)", "Diácono(a)"]
+ministeries = ["Louvor", "Obreiros", "Infantil", "Oração"]
 
-# 20.times do
-#   u = User.new(
-#     name: Faker::Name.name,
-#     email: Faker::Internet.email,
-#     title: "Pastor",
-#     phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
-#     birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
-#     marital_status: rand(0..4),
-#     location: Faker::Address.full_address,
-#     member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
-#     is_baptized: true,
-#     church: Church.first
-#   )
-#   u.set_default_password
-#   u.save
-# end
+Church.find_each do |church|
+  actual_members = church.users.length
+  actual_leaders = church.leaders.length
+  actual_ministeries = church.ministeries.length
 
+  while actual_leaders <= 2
+    returned = create_user(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      title: titles[rand(0..2)],
+      phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
+      birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
+      marital_status: rand(0..4),
+      location: Faker::Address.full_address,
+      member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
+      is_baptized: true,
+      is_leader: true,
+      church: church
+    )
+    puts "#{church.name} - members: #{actual_members} - leaders: #{actual_leaders}"
+    actual_leaders += 1 if returned
+    actual_members += 1 if returned
+  end
+  min_members = rand(20..40)
+
+  while actual_members < min_members
+    returned = create_user(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      title: "Membro",
+      phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
+      birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
+      marital_status: rand(0..4),
+      location: Faker::Address.full_address,
+      member_since: Faker::Date.between(from: '2018-01-01', to: '2021-11-21'),
+      is_baptized: true,
+      is_leader: false,
+      church: church
+    )
+    puts "#{church.name} - members: #{actual_members}"
+    actual_members += 1 if returned
+  end
+
+  ministeries.each do |ministery|
+    Ministery.create(
+      name: ministery,
+      description: "Essa é uma descrição fake para fazer um teste",
+      church: church
+    )
+  end
+end
 
