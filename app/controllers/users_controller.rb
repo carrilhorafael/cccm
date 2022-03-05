@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = @church.users.order('is_leader DESC, id DESC')
+    @users = @church.users.order('is_leader DESC, id')
 
     render json: @users
   end
