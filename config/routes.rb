@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   put "/users/:id/grant_access", to: "users#grant_access"
   put "/users/:id/revoke_access", to: "users#revoke_access"
+  resources :users, except: [:index, :create]
   get '/ministeries/:id/memberships', to: "ministeries#memberships"
   post '/ministeries/:id/memberships', to: "ministeries#create_membership"
   resources :churches do

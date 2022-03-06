@@ -61,16 +61,33 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
+    action = User::Update.call(
+      user: @user,
+      performer: current_user,
+      church: @user.church,
+      user_params: user_params
+    )
+
+    if action.success?
+      render json: action.user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: action.error, status: :unprocessable_entity
     end
   end
 
   # DELETE /users/1
   def destroy
-    @user.destroy
+    action = User::Destroy.call(
+      user: @user,
+      performer: current_user,
+      church: @user.church
+    )
+
+    if action.success?
+      render json: action.user
+    else
+      render json: action.error, status: :unprocessable_entity
+    end
   end
 
   private
