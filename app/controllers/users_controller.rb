@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :verify_authenticated
-  before_action :set_user, only: [:show, :update, :destroy, :grant_access, :revoke_access]
+  before_action :set_user, except: [:create, :index]
   before_action :set_church, only: [:create, :index]
 
   # GET /users
@@ -59,6 +59,29 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_ministeries
+    action = User::AddMinisteries.call(
+      user: @user,
+      performer: current_user,
+      church: @user.church
+      ministeries_ids: ministeries_ids
+    )
+    if action.success?
+      render json: action.user
+    else
+      render json: action.error, status: :unprocessable_entity
+    end
+  end
+
+  def remove_ministery
+    action = User::RemoveMinistery.call(
+      user: @user,
+      performer: current_user,
+      church: @user.church,
+      ministeries_ids: ministeries_ids
+    )
+  end
+
   # PATCH/PUT /users/1
   def update
     action = User::Update.call(
@@ -100,10 +123,14 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :phone, :title, :member_since, :is_baptized)
+      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :location, :phone, :title, :member_since, :is_baptized, :notes)
     end
 
     def access_params
       params.require(:user).permit(:should_have_access, :is_leader)
+    end
+
+    def ministeries_ids
+      params[:ministeries_ids] || []
     end
 end

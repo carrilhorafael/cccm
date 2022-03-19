@@ -42,8 +42,7 @@ class MinisteriesController < ApplicationController
     action = Ministery::Create.call(
       performer: current_user,
       church: @church,
-      ministery_params: ministery_params,
-      leaders_ids: leaders_ids
+      ministery_params: ministery_params
     )
 
     if action.success?
@@ -76,13 +75,5 @@ class MinisteriesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def ministery_params
       params.require(:ministery).permit(:name, :description)
-    end
-
-    def membership_params
-      params.require(:membership).permit(:user_id, :is_leader, :notes)
-    end
-
-    def leaders_ids
-      params[:ministery][:leaders_ids]
     end
 end

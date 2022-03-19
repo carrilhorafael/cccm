@@ -9,6 +9,7 @@ class UserSerializer < ActiveModel::Serializer
     :member_since,
     :marital_status,
     :location,
+    :gender,
     :phone,
     :last_time_logged_at,
     :has_access,
@@ -17,8 +18,6 @@ class UserSerializer < ActiveModel::Serializer
     :is_leader,
     :president_pastor,
     :ministeries
-
-  belongs_to :church
 
   def has_access
     object.has_access?
