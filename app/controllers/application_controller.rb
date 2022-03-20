@@ -16,10 +16,13 @@ class ApplicationController < ActionController::API
   end
 
   def validate_user
-    if current_user.present?
-      render json: current_user
+    render json: { message: "Não é mais válido" }, status: 403 and return if !current_user
+
+    action = User::Login.call(user: current_user)
+    if action.success?
+      render json:  { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter}
     else
-      render json: {message: "Não é mais válido"}, status: 403
+      render json: { message: action.error }, status: 403
     end
   end
 

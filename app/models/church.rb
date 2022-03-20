@@ -12,10 +12,8 @@ class Church < ApplicationRecord
   end
 
   def can_edit?(user)
-    self.leaders.include?(user)
+    user.president_pastor? || (self == user.church && user.is_leader?)
   end
 
-  def leaders
-    self.users.where(is_leader: true)
-  end
+
 end

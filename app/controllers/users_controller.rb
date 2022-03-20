@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = @church.users.order('is_leader DESC, id')
+    @users = @church.users.filtered_by(current_user.filter)
 
     render json: @users
   end
@@ -35,27 +35,25 @@ class UsersController < ApplicationController
     action = User::GrantAccess.call(
       user: @user,
       performer: current_user,
-      church: @user.church,
       access_params: access_params
     )
 
     if action.success?
       render json: action.user
     else
-      render json: action.error, status: :unprocessable_entity
+      render json: {message: action.error}, status: :unprocessable_entity
     end
   end
 
   def revoke_access
     action = User::RevokeAccess.call(
       user: @user,
-      performer: current_user,
-      church: @user.church
+      performer: current_user
     )
     if action.success?
       render json: action.user
     else
-      render json: action.error, status: :unprocessable_entity
+      render json: {message: action.error}, status: :unprocessable_entity
     end
   end
 
@@ -63,13 +61,12 @@ class UsersController < ApplicationController
     action = User::AddMinisteries.call(
       user: @user,
       performer: current_user,
-      church: @user.church
       ministeries_ids: ministeries_ids
     )
     if action.success?
       render json: action.user
     else
-      render json: action.error, status: :unprocessable_entity
+      render json: {message: action.error}, status: :unprocessable_entity
     end
   end
 
@@ -77,9 +74,13 @@ class UsersController < ApplicationController
     action = User::RemoveMinistery.call(
       user: @user,
       performer: current_user,
-      church: @user.church,
       ministeries_ids: ministeries_ids
     )
+    if action.success?
+      render json: action.user
+    else
+      render json: {message: action.error}, status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /users/1
@@ -87,14 +88,13 @@ class UsersController < ApplicationController
     action = User::Update.call(
       user: @user,
       performer: current_user,
-      church: @user.church,
       user_params: user_params
     )
 
     if action.success?
       render json: action.user
     else
-      render json: action.error, status: :unprocessable_entity
+      render json: {message: action.error}, status: :unprocessable_entity
     end
   end
 
@@ -102,14 +102,13 @@ class UsersController < ApplicationController
   def destroy
     action = User::Destroy.call(
       user: @user,
-      performer: current_user,
-      church: @user.church
+      performer: current_user
     )
 
     if action.success?
       render json: action.user
     else
-      render json: action.error, status: :unprocessable_entity
+      render json: {message: action.error}, status: :unprocessable_entity
     end
   end
 

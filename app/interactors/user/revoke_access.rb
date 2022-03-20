@@ -8,7 +8,7 @@ class User::RevokeAccess < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não retirar acesso ao sistema com este nível de permissão") unless context.church.can_edit?(performer)
+    context.fail!(error: "Você não retirar acesso ao sistema com este nível de permissão") unless church.can_edit?(performer)
     context.fail!(error: "Você não pode tirar acesso de um pastor presidente") if user.president_pastor && !performer.president_pastor
   end
 

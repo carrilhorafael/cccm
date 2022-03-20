@@ -11,7 +11,7 @@ class User::GrantAccess < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não dar acesso ao sistema com este nível de permissão") unless context.church.can_edit?(performer)
+    context.fail!(error: "Você não dar acesso ao sistema com este nível de permissão") unless church.can_edit?(performer)
   end
 
   def check_consistency
@@ -31,6 +31,6 @@ class User::GrantAccess < User::Base
   end
 
   def send_access_notification
-    UserMailer.with(performer_id: performer.id, user_id: user.id).grant_access.deliver_now
+    UserMailer.with(performer_id: performer.id, user_id: user.id).grant_access.deliver_now unless context.skip_mailer_notification
   end
 end

@@ -8,6 +8,7 @@ class User::Create < User::Base
     ActiveRecord::Base.transaction do
       user.save!
       grant_new_access if access_params[:should_have_access]
+      create_default_filter
     end
 
   end
@@ -15,11 +16,11 @@ class User::Create < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não pode cadastrar um membro com este nível de permissão") unless context.church.can_edit?(performer)
+    context.fail!(error: "Você não pode cadastrar um membro com este nível de permissão") unless church.can_edit?(performer)
   end
 
   def build_user
-    context.user = context.church.users.build(user_params)
+    context.user = church.users.build(user_params)
     user.title ||= "Membro"
   end
 
@@ -31,9 +32,17 @@ class User::Create < User::Base
     action = User::GrantAccess.call(
       user: user,
       performer: performer,
-      church: context.church,
-      is_leader: access_params[:is_leader]
+      is_leader: access_params[:is_leader],
+      skip_mailer_notification: skip_mailer_notification
     )
+  end
+
+  def create_default_filter
+    action = Filter::Create.call(performer: user)
+
+    unless action.success?
+      context.fail!(error: action.error)
+    end
   end
 
   def user_params

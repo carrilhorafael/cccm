@@ -10,7 +10,7 @@ class User::AddMinisteries < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não pode editar ministérios de um membro com este nível de permissão") unless context.church.can_edit?(performer)
+    context.fail!(error: "Você não pode editar ministérios de um membro com este nível de permissão") unless church.can_edit?(performer)
   end
 
   def create_all_memberships

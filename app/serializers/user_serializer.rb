@@ -17,7 +17,8 @@ class UserSerializer < ActiveModel::Serializer
     :access_garantied_at,
     :is_leader,
     :president_pastor,
-    :ministeries
+    :ministeries,
+    :church_id
 
   def has_access
     object.has_access?

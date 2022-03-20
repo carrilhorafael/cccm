@@ -1,9 +1,13 @@
 class User::Login < User::Base
 
   def call
-    find_user
-    check_consistency
-    authenticate_user
+    unless user
+      find_user
+      check_consistency
+      authenticate_user
+    else
+      check_consistency
+    end
     generate_token
     update_last_login_at
   end

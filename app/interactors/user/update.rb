@@ -10,7 +10,7 @@ class User::Update < User::Base
   private
 
   def check_authorization
-    context.fail!(error: "Você não apagar usuários do sistema com esse nível de permissão") unless context.church.can_edit?(performer)
+    context.fail!(error: "Você não apagar usuários do sistema com esse nível de permissão") unless church.can_edit?(performer)
   end
 
   def assign_attributes
