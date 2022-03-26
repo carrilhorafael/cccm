@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
 
     action = User::Login.call(user: current_user)
     if action.success?
-      render json:  { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter}
+      render json:  { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: action.user.church}
     else
       render json: { message: action.error }, status: 403
     end
