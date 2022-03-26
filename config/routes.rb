@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :ministeries, only: [:destroy, :update]
   resources :filters, only: [:update, :create]
   resources :users, except: [:index, :create] do
     put "grant_access", to: "users#grant_access"
