@@ -16,6 +16,7 @@ class UserSerializer < ActiveModel::Serializer
     :access_garantied_by,
     :access_garantied_at,
     :is_leader,
+    :notes,
     :president_pastor,
     :ministeries
 
