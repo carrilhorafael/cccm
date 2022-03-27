@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 
 
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id]) || User.find_by(id: params[:user_id])
     end
 
     # Only allow a list of trusted parameters through.
