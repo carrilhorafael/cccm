@@ -1,6 +1,6 @@
 class Church < ApplicationRecord
   has_many :ministeries, dependent: :destroy
-  has_many :users
+  has_many :users, dependent: :destroy
 
   validates :name, :location, presence: true
   validate :church_must_be_unique
