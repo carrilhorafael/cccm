@@ -57,38 +57,13 @@ class UsersController < ApplicationController
     end
   end
 
-  def add_ministeries
-    action = User::AddMinisteries.call(
-      user: @user,
-      performer: current_user,
-      ministeries_ids: ministeries_ids
-    )
-    if action.success?
-      render json: action.user
-    else
-      render json: {message: action.error}, status: :unprocessable_entity
-    end
-  end
-
-  def remove_ministery
-    action = User::RemoveMinistery.call(
-      user: @user,
-      performer: current_user,
-      ministeries_ids: ministeries_ids
-    )
-    if action.success?
-      render json: action.user
-    else
-      render json: {message: action.error}, status: :unprocessable_entity
-    end
-  end
-
   # PATCH/PUT /users/1
   def update
     action = User::Update.call(
       user: @user,
       performer: current_user,
-      user_params: user_params
+      user_params: user_params,
+      ministeries_ids: ministeries_ids
     )
 
     if action.success?
@@ -130,6 +105,6 @@ class UsersController < ApplicationController
     end
 
     def ministeries_ids
-      params[:ministeries_ids] || []
+      params[:user][:ministeries_ids] || []
     end
 end
