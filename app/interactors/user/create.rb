@@ -35,6 +35,8 @@ class User::Create < User::Base
       is_leader: access_params[:is_leader],
       skip_mailer_notification: skip_mailer_notification
     )
+
+    context.fail!(error: action.error) unless action.success?
   end
 
   def create_default_filter

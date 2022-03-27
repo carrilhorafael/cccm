@@ -8,11 +8,18 @@ class Filter < ApplicationRecord
 
     if self.restriction.has_key?("ministeries")
       if self.restriction["ministeries"]["filter_types"] == ['no-ministeries', 'choosen-ministeries']
-       query << " LEFT JOIN memberships ON memberships.user_id = users.id WHERE (memberships.user_id is NULL OR memberships.ministery_id IN (#{self.restriction['ministeries']['choosed_ministeries_ids'].map{ |e| "'#{e}'" }.join(', ')}))"
+       query << " LEFT JOIN memberships ON memberships.user_id = users.id WHERE (memberships.user_id is NULL"
+       if self.restriction['ministeries'].has_key?("choosed_ministeries_ids")
+        query << " OR memberships.ministery_id IN (#{self.restriction['ministeries']['choosed_ministeries_ids'].map{ |e| "'#{e}'" }.join(', ')}))"
+      else
+        query << ")"
+       end
       elsif self.restriction["ministeries"]["filter_types"] == ['no-ministeries']
         query << " LEFT JOIN memberships ON memberships.user_id = users.id WHERE memberships.user_id is NULL"
-      elsif self.restriction["ministeries"]["filter_types"] == ['choosen-ministeries']
-        query << " LEFT JOIN memberships ON memberships.user_id = users.id WHERE memberships.ministery_id IN (#{self.restriction['ministeries']['choosed_ministeries_ids'].map{ |e| "'#{e}'" }.join(', ')})"
+      elsif self.restriction["ministeries"]["filter_types"] == ['choosen-ministeries'] && self.restriction['ministeries'].has_key?("choosed_ministeries_ids")
+        query << " LEFT JOIN memberships ON memberships.user_id = users.id WHERE memberships.ministery_id IN (#{self.restriction['ministeries']['choosed_ministeries_ids']&.map{ |e| "'#{e}'" }&.join(', ')})"
+      else
+        count -= 1
       end
 
       count += 1

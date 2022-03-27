@@ -31,39 +31,13 @@ class UsersController < ApplicationController
     end
   end
 
-  def grant_access
-    action = User::GrantAccess.call(
-      user: @user,
-      performer: current_user,
-      access_params: access_params
-    )
-
-    if action.success?
-      render json: action.user
-    else
-      render json: {message: action.error}, status: :unprocessable_entity
-    end
-  end
-
-  def revoke_access
-    action = User::RevokeAccess.call(
-      user: @user,
-      performer: current_user
-    )
-    if action.success?
-      render json: action.user
-    else
-      render json: {message: action.error}, status: :unprocessable_entity
-    end
-  end
-
   # PATCH/PUT /users/1
   def update
     action = User::Update.call(
       user: @user,
       performer: current_user,
       user_params: user_params,
-      ministeries_ids: ministeries_ids
+      access_params: access_params
     )
 
     if action.success?
@@ -97,14 +71,10 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :gender, :location, :phone, :title, :member_since, :is_baptized, :notes)
+      params.require(:user).permit(:email, :name, :birthdate, :marital_status, :gender, :location, :phone, :title, :member_since, :is_baptized, :notes, ministeries_ids: [])
     end
 
     def access_params
       params.require(:user).permit(:should_have_access, :is_leader)
-    end
-
-    def ministeries_ids
-      params[:user][:ministeries_ids] || []
     end
 end

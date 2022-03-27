@@ -27,6 +27,10 @@ class ApplicationController < ActionController::API
   end
 
   def set_church
-    @church = Church.find(params[:church_id])
+    if current_user.president_pastor?
+      @church = Church.find(params[:church_id])
+    else
+      @church = current_user.church
+    end
   end
 end

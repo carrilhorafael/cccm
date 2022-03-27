@@ -4,14 +4,9 @@ class ChurchesController < ApplicationController
 
   # GET /churches
   def index
-    @churches = Church.all
+    @churches = Church.can_view(current_user)
 
     render json: @churches
-  end
-
-  # GET /churches/1
-  def show
-    render json: @church
   end
 
   # POST /churches
@@ -30,16 +25,22 @@ class ChurchesController < ApplicationController
 
   # PATCH/PUT /churches/1
   def update
-    if @church.update(church_params)
-      render json: @church
+    action = Church::Update.call(church: @church, performer: current_user, church_params: church_params)
+
+    if action.success?
+      render json: action.church
     else
-      render json: @church.errors, status: :unprocessable_entity
+      render json: { error: action.error }, status: :unprocessable_entity
     end
   end
 
   # DELETE /churches/1
   def destroy
-    @church.destroy
+    action = Church::Destroy.call(church: @church, performer: current_user)
+
+    unless action.success?
+      render json: { error: action.error }, status: 422
+    end
   end
 
   private

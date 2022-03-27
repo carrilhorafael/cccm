@@ -15,7 +15,7 @@ class User::GrantAccess < User::Base
   end
 
   def check_consistency
-    context.fail!(error: "Esse usuário já tem acesso ao sistema") if user.has_access?
+    context.fail!(error: "Esse usuário já tem acesso ao sistema") if user.has_access? && user.is_leader == is_leader
   end
 
   def update_user

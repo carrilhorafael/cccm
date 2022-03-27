@@ -13,7 +13,7 @@ church = Church.create(
 )
 @julio = User.create(
   name: "Julio",
-  title: "Pastor",
+  title: "Pastor(a)",
   email: "admin@email.com.br",
   phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
   password: "12345678",
@@ -91,11 +91,14 @@ Church.find_each do |church|
     if action.success?
       puts "user #{action.user.name} criado"
       members += 1
+      update_params = {
+        ministeries_ids: church.ministeries.pluck(:id).sample(2)
+      }
 
-      User::AddMinisteries.call(
+      User::Update.call(
         user: action.user,
         performer: @julio,
-        ministeries_ids: church.ministeries.pluck(:id).sample(2)
+        user_params: update_params
       )
     end
   end
