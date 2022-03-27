@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   belongs_to :church
   has_many :ministeries, through: :memberships
-  has_many :filters
+  has_many :filters, dependent: :destroy
 
   validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
