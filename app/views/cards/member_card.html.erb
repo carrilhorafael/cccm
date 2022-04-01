@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* http://meyerweb.com/eric/tools/css/reset/
+      v2.0 | 20110126
+      License: none (public domain)
+    */
+
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    :root{
+    	font-family: "Quicksand", sans-serif !important;
+    }
+    .cardsContainer{
+      position: relative;
+      background-color: #FAFAFA
+    }
+    .cardFront {
+      background-color: #D6F2FB;
+      width: 350px;
+      height: 150px;
+      padding: 24px 16px;
+      margin-bottom: 4px;
+      position: absolute;
+    }
+    .cardBack{
+      background-color: #D6F2FB;
+      width: 350px;
+      height: 150px;
+      padding: 24px 16px;
+      margin-bottom: 4px;
+      position: absolute;
+      left: 385px;
+    }
+    .cardFront h1{
+      font-size: 32px;
+      font-weight: bolder;
+    }
+    .cardFront h2{
+      font-size: 24px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 24px;
+    }
+    .cardBack p {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .cardFront img {
+      width: 100px;
+      height: 120px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    .cardBack div {
+      position:absolute;
+      bottom: 24px
+    }
+  </style>
+</head>
+<body>
+  <main class="cardsContainer">
+    <section class="cardFront">
+      <div class="info">
+        <h1>CCCM</h1>
+        <h2><%= @user.name %></h2>
+      </div>
+      <img src="<%= @image %>" />
+    </section>
+    <section class="cardBack">
+      <div>
+        <p><%= @user.title %></p>
+        <p><%= @user.church.name %></p>
+        <p>Membro desde <%= @user.member_since.strftime("%d/%m/%Y") %></p>
+        <p>Nascido em <%= @user.birthdate.strftime("%d/%m/%Y") %></p>
+      </div>
+    </section>
+  </main></body>
+</html>

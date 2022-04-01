@@ -19,6 +19,7 @@ class User < ApplicationRecord
     "Separado(a)": 4
   }
 
+  mount_uploader :avatar, AvatarUploader
   enum gender:{
     "Masculino": 0,
     "Feminino": 1
