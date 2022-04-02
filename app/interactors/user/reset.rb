@@ -7,6 +7,7 @@ class User::Reset < User::Base
     update_password
     validate_model
     user.save!
+    call_login
   end
 
   private
@@ -29,5 +30,9 @@ class User::Reset < User::Base
 
   def validate_model
     context.fail!(error: user.errors.full_messages.join(". ")) unless user.valid?
+  end
+
+  def call_login
+    context.token = User::Login.call(user: user).token
   end
 end

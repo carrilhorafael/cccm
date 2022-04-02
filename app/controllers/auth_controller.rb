@@ -18,8 +18,10 @@ class AuthController < ApplicationController
       password_confirmation: params[:password_confirmation],
     )
 
-    if action.fail?
-      render json:{ message: action.error }, status: :unprocessable_entity
+    if action.success?
+      render json: { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: ChurchSerializer.new(action.user.church) }
+    else
+      render json: { message: action.error }, status: :unprocessable_entity
     end
 
   end
