@@ -6,14 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-church = Church.create(
+@church = Church.create(
   name: "Brasilândia",
   location: "Rua da Brasilandia, 123, Brasilandia, São Gonçalo, Rio de Janeiro",
   is_head: true
 )
 @julio = User.create(
   name: "Julio",
-  title: "Pastor(a)",
+  title: User::POSSIBLE_TITLES[0],
   email: "admin@email.com.br",
   phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
   password: "12345678",
@@ -22,7 +22,7 @@ church = Church.create(
   marital_status: 1,
   gender: 0,
   location: "Rua do Admin, 123, São Gonçalo, Rio de Janeiro",
-  church: Church.find_by(is_head: true),
+  church: @church,
   member_since: "15/11/2018",
   is_baptized: true,
   access_garantied_at: Time.zone.now,
@@ -33,6 +33,7 @@ church = Church.create(
 Filter::Create.call(
   performer: @julio
 )
+
 
 def create_user(user_params, church, access_params)
   puts "church: #{church.name}"
@@ -45,17 +46,12 @@ def create_user(user_params, church, access_params)
   )
 end
 
-Church.create(
-  name: "Pita",
-  location: "Rua do Pita, 123, Pita, São Gonçalo, Rio de Janeiro"
-)
 
 Church.create(
   name: "Porto da Pedra",
   location: "Rua do Porto da Pedra, 123, Porto da Pedra, São Gonçalo, Rio de Janeiro"
 )
 
-titles = ["Pastor(a)", "Obreiro(a)", "Diácono(a)", "Membro(a)"]
 ministeries = ["Louvor", "Obreiros", "Infantil", "Oração"]
 
 Church.find_each do |church|
@@ -77,7 +73,7 @@ Church.find_each do |church|
     user_params = {
       name: Faker::Name.name,
       email: Faker::Internet.email,
-      title: titles[rand(0..3)],
+      title: User::POSSIBLE_TITLES[rand(1..3)],
       phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
       birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
       marital_status: rand(0..4),
@@ -104,3 +100,12 @@ Church.find_each do |church|
   end
 end
 
+update_params = {
+  ministeries_ids: @church.ministeries.pluck(:id).sample(2)
+}
+
+User::Update.call(
+  user: @julio,
+  performer: @julio,
+  user_params: update_params
+)

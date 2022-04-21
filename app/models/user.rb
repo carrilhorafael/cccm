@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  POSSIBLE_TITLES = ["Pastor(a)", "Membro(a)", "Diácono(isa)", "Obreiro(a)"]
   has_secure_password
 
   has_many :memberships, dependent: :destroy
@@ -9,6 +10,7 @@ class User < ApplicationRecord
   validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
   validates :email, uniqueness: { case_sensitive: true }
+  validates :title, inclusion: { in: POSSIBLE_TITLES }
   validate :birthdate_must_be_past
 
   enum marital_status:{

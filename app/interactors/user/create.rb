@@ -21,7 +21,6 @@ class User::Create < User::Base
 
   def build_user
     context.user = church.users.build(user_params)
-    user.title ||= "Membro"
   end
 
   def validate_model
