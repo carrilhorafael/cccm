@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'member_card', to: 'cards#member_card'
   end
   resources :churches do
+    get 'resume'
     resources :users, only: [:index, :create]
     resources :ministeries, only: [:index, :create]
   end

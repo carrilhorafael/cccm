@@ -1,12 +1,16 @@
 class ChurchesController < ApplicationController
   before_action :verify_authenticated
-  before_action :set_church, only: [:show, :update, :destroy]
+  before_action :set_church, only: [:resume, :show, :update, :destroy]
 
   # GET /churches
   def index
     @churches = Church.can_view(current_user)
 
     render json: @churches
+  end
+
+  def resume
+    render json: @church.users_grouped_by_birthdate_month
   end
 
   # POST /churches
@@ -46,7 +50,7 @@ class ChurchesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_church
-      @church = Church.find(params[:id])
+      @church = Church.find_by(id: params[:church_id]) || Church.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
