@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  proselytized_at: 2022-04-21
+  phone: MyString
+  church: one
+
+two:
+  name: MyString
+  proselytized_at: 2022-04-21
+  phone: MyString
+  church: two

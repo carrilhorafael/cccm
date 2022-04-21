@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   resources :churches do
     get 'resume'
+    resources :proselytes, only: [:index, :create]
     resources :users, only: [:index, :create]
     resources :ministeries, only: [:index, :create]
   end

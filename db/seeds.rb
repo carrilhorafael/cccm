@@ -98,6 +98,15 @@ Church.find_each do |church|
       )
     end
   end
+
+  (0...200).to_a.each do
+    Proselyte.create!(
+      church: church,
+      name: Faker::Name.name,
+      phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
+      proselytized_at: Faker::Date.between(from: Date.today.beginning_of_month - 11.month, to: Date.today)
+    )
+  end
 end
 
 update_params = {

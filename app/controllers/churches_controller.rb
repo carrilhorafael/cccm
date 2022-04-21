@@ -10,7 +10,10 @@ class ChurchesController < ApplicationController
   end
 
   def resume
-    render json: @church.users_grouped_by_birthdate_month
+    render json: {
+      users_grouped_by_birthdate_month: @church.users_grouped_by_birthdate_month,
+      proselytes_in_last_year: @church.proselytes_in_last_year
+    }
   end
 
   # POST /churches

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_19_194735) do
+ActiveRecord::Schema.define(version: 2022_04_21_181556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 2022_03_19_194735) do
     t.index ["church_id"], name: "index_ministeries_on_church_id"
   end
 
+  create_table "proselytes", force: :cascade do |t|
+    t.string "name"
+    t.date "proselytized_at"
+    t.string "phone"
+    t.bigint "church_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["church_id"], name: "index_proselytes_on_church_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -81,5 +91,6 @@ ActiveRecord::Schema.define(version: 2022_03_19_194735) do
   add_foreign_key "memberships", "ministeries"
   add_foreign_key "memberships", "users"
   add_foreign_key "ministeries", "churches"
+  add_foreign_key "proselytes", "churches"
   add_foreign_key "users", "churches"
 end
