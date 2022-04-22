@@ -12,7 +12,7 @@ class ChurchesController < ApplicationController
   def resume
     render json: {
       users_grouped_by_birthdate_month: @church.users_grouped_by_birthdate_month,
-      proselytes_in_last_year: @church.proselytes_in_last_year
+      proselytes_in_last_semester: @church.proselytes_in_last_semester
     }
   end
 

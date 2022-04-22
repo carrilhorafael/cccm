@@ -23,8 +23,8 @@ class Church < ApplicationRecord
     users_by_birthdate
   end
 
-  def proselytes_in_last_year
-    dates = (0..11).to_a.map { |month_int| Date.today.beginning_of_month - month_int.month }
+  def proselytes_in_last_semester
+    dates = (0..5).to_a.map { |month_int| Date.today.beginning_of_month - month_int.month }
     proselytes_by_month = {}
     dates.reverse.each do |date|
       key = "#{date.month < 10 ? "0#{date.month}" : date.month}/#{date.year}"
