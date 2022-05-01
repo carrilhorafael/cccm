@@ -1,8 +1,8 @@
 class Proselyte::Base
   include Interactor
 
-  def ministery
-    context.ministery
+  def proselyte
+    context.proselyte
   end
 
   def church

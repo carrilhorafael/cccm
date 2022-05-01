@@ -11,12 +11,12 @@ class ProselytesController < ApplicationController
 
   # POST /proselytes
   def create
-    @proselyte = Proselyte::Create.call(church: @church, performer: current_user, proselyte_params: proselyte_params)
+    action = Proselyte::Create.call(church: @church, performer: current_user, proselyte_params: proselyte_params)
 
-    if @proselyte.save
-      render json: @proselyte, status: :created, location: @proselyte
+    if action.success?
+      render json: action.proselyte, status: :created
     else
-      render json: @proselyte.errors, status: :unprocessable_entity
+      render json: { error: action.error }, status: :unprocessable_entity
     end
   end
 
