@@ -11,7 +11,7 @@ class ProselytesController < ApplicationController
 
   # POST /proselytes
   def create
-    @proselyte = Proselyte::Create.call(church: @church, proselyte_params: proselyte_params)
+    @proselyte = Proselyte::Create.call(church: @church, performer: current_user, proselyte_params: proselyte_params)
 
     if @proselyte.save
       render json: @proselyte, status: :created, location: @proselyte
