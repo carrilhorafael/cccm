@@ -12,7 +12,7 @@ Rails.application.configure do
     port: 587,
     domain: 'gmail.com',
     user_name: "cccm.notifications@gmail.com",
-    password: "CCCMailer@2022"
+    password: "CCCMailer@202202"
   }
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
