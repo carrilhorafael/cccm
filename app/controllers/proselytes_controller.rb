@@ -1,5 +1,6 @@
 class ProselytesController < ApplicationController
-  before_action :set_church, only: [:create, :index]
+  before_action :set_church, only: :index
+  before_action :set_cult, only: :create
   before_action :set_proselyte, only: :destroy
 
   # GET /proselytes
@@ -11,12 +12,12 @@ class ProselytesController < ApplicationController
 
   # POST /proselytes
   def create
-    action = Proselyte::Create.call(church: @church, performer: current_user, proselyte_params: proselyte_params)
+    action = Proselyte::Create.call(cult: @cult, performer: current_user, proselyte_params: proselyte_params)
 
     if action.success?
       render json: action.proselyte, status: :created
     else
-      render json: { error: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -29,6 +30,10 @@ class ProselytesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_proselyte
       @proselyte = Proselyte.find(params[:id])
+    end
+
+    def set_cult
+      @cult = current_user.church.cults.find(params[:cult_id])
     end
 
     # Only allow a list of trusted parameters through.

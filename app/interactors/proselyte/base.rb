@@ -6,7 +6,11 @@ class Proselyte::Base
   end
 
   def church
-    context.church
+    cult.church
+  end
+
+  def cult
+    context.cult
   end
 
   def performer

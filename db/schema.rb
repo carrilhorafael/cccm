@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_21_181556) do
+ActiveRecord::Schema.define(version: 2022_05_07_140406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 2022_04_21_181556) do
     t.boolean "is_head", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cults", force: :cascade do |t|
+    t.date "date_of"
+    t.string "responsible_name"
+    t.string "description"
+    t.bigint "church_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["church_id"], name: "index_cults_on_church_id"
   end
 
   create_table "filters", force: :cascade do |t|
@@ -53,12 +63,14 @@ ActiveRecord::Schema.define(version: 2022_04_21_181556) do
 
   create_table "proselytes", force: :cascade do |t|
     t.string "name"
-    t.date "proselytized_at"
     t.string "phone"
     t.bigint "church_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "proselytized_at"
+    t.bigint "cult_id"
     t.index ["church_id"], name: "index_proselytes_on_church_id"
+    t.index ["cult_id"], name: "index_proselytes_on_cult_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -92,5 +104,6 @@ ActiveRecord::Schema.define(version: 2022_04_21_181556) do
   add_foreign_key "memberships", "users"
   add_foreign_key "ministeries", "churches"
   add_foreign_key "proselytes", "churches"
+  add_foreign_key "proselytes", "cults"
   add_foreign_key "users", "churches"
 end

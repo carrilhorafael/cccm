@@ -14,7 +14,7 @@ class Proselyte::Create < Proselyte::Base
   end
 
   def build_proselyte
-    context.proselyte = church.proselytes.build(proselyte_params)
+    context.proselyte = cult.proselytes.build(proselyte_params)
   end
 
   def validate_model
