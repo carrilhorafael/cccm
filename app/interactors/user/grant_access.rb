@@ -10,12 +10,8 @@ class User::GrantAccess < User::Base
 
   private
 
-  def check_authorization
-    context.fail!(error: "Você não dar acesso ao sistema com este nível de permissão") unless church.can_edit?(performer)
-  end
-
   def check_consistency
-    context.fail!(error: "Esse usuário já tem acesso ao sistema") if user.has_access? && user.is_leader == is_leader
+    context.fail!(errors: error_message(:already_has_access)) if user.has_access? && user.is_leader == is_leader
   end
 
   def update_user

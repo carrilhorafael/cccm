@@ -15,16 +15,8 @@ class User::Create < User::Base
 
   private
 
-  def check_authorization
-    context.fail!(error: "Você não pode cadastrar um membro com este nível de permissão") unless church.can_edit?(performer)
-  end
-
   def build_user
     context.user = church.users.build(user_params)
-  end
-
-  def validate_model
-    context.fail!(error: user.errors.full_messages.join(". ")) unless user.valid?
   end
 
   def grant_new_access
@@ -35,19 +27,19 @@ class User::Create < User::Base
       skip_mailer_notification: skip_mailer_notification
     )
 
-    context.fail!(error: action.error) unless action.success?
+    context.fail!(errors: action.errors) unless action.success?
   end
 
   def create_default_filter
-    action = Filter::Create.call(performer: user)
+    action = Filter::Create.call(performer: user, default_filter_params)
 
     unless action.success?
-      context.fail!(error: action.error)
+      context.fail!(errors: action.errors)
     end
   end
 
-  def user_params
-    context.user_params
+  def default_filter_params
+    { source: 'users' }
   end
 
   def access_params

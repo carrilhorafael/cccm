@@ -1,9 +1,4 @@
-class Cult::Base
-  include Interactor
-
-  def performer
-    context.performer
-  end
+class Cult::Base < AbstractInteractor
 
   def cult
     context.cult
@@ -17,11 +12,7 @@ class Cult::Base
     context.cult_params
   end
 
-  def check_authorization
-    context.fail!(error: "Você não pode executar essa ação") unless church.can_edit?(performer)
-  end
-
   def validate_model
-    context.fail!(error: cult.errors.full_messages.join(". ")) unless cult.valid?
+    context.fail!(errors: cult.errors) unless cult.valid?
   end
 end

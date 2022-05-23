@@ -11,10 +11,6 @@ class Church::Destroy < Church::Base
 
   private
 
-  def check_authorization
-    context.fail!(error: "Somente o pastor presidente pode executar essa ação") unless performer.president_pastor?
-  end
-
   def update_president_pastor_church
     performer.church = Church.where.not(id: church.id).first
     performer.save!

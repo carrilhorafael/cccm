@@ -21,7 +21,7 @@ class CultsController < ApplicationController
     if action.success?
       render json: action.cult, status: :created
     else
-      render json: { error: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -32,13 +32,17 @@ class CultsController < ApplicationController
     if action.success?
       render json: action.cult
     else
-      render json: { error: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /cults/1
   def destroy
-    @cult.destroy
+    action = Cult::Destroy.call(cult: @cult, performer: current_user)
+
+    if action.fail?
+      render json: action.errors
+    end
   end
 
   private

@@ -2,18 +2,15 @@ class User::RevokeAccess < User::Base
 
   def call
     check_authorization
+    check_consistency
     revoke_access
   end
 
   private
 
-  def check_authorization
-    context.fail!(error: "Você não retirar acesso ao sistema com este nível de permissão") unless church.can_edit?(performer)
-    context.fail!(error: "Você não pode tirar acesso de um pastor presidente") if user.president_pastor && !performer.president_pastor
-  end
-
   def check_consistency
-    context.fail!(error: "Esse usuário não tem acesso ao sistema") unless user.has_access?
+    context.fail!(errors: error_message(:cannot_revoke_president_pastor_access)) if user.president_pastor && !performer.president_pastor
+    context.fail!(errors: error_message(:already_has_not_access)) unless user.has_access?
   end
 
   def revoke_access

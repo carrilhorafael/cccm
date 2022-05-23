@@ -15,15 +15,16 @@ class User::Login < User::Base
   private
 
   def find_user
-    context.user = User.find_by!(email: context.email)
+    context.user = User.find_by(email: context.email)
   end
 
   def check_consistency
-    context.fail!(error: "Você não tem acesso ao sistema") unless user.has_access?
+    context.fail!(errors: error_message(:not_found)) unless user
+    context.fail!(errors: error_message(:without_access)) unless user.has_access?
   end
 
   def authenticate_user
-    context.fail!(error: "Senha incorreta") unless user.authenticate(context.password)
+    context.fail!(errors: error_message(:incorrect_password)) unless user.authenticate(context.password)
   end
 
   def generate_token

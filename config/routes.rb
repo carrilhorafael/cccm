@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :ministeries, only: [:destroy, :update]
+  resources :proselytes, only: [:destroy, :update]
   resources :cults, only: [:destroy, :update] do
     resources :proselytes, only: :create
   end

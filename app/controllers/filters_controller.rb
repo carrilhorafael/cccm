@@ -10,7 +10,7 @@ class FiltersController < ApplicationController
     if action.success?
       render json: action.filter
     else
-      render json: { message: action.error }, status: 422
+      render json: action.errors, status: 422
     end
   end
 
@@ -24,7 +24,7 @@ class FiltersController < ApplicationController
     if action.success?
       render json: action.filter
     else
-      render json: { message: action.error }, status: 422
+      render json: action.errors, status: 422
     end
   end
 

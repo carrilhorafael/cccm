@@ -1,9 +1,4 @@
-class Filter::Base
-  include Interactor
-
-  def performer
-    context.performer
-  end
+class Filter::Base < AbstractInteractor
 
   def user
     performer
@@ -11,5 +6,9 @@ class Filter::Base
 
   def filter
     context.filter || user.filter
+  end
+
+  def filter_params
+    context.filter_params
   end
 end

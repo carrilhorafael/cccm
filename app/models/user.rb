@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
   validates :email, uniqueness: { case_sensitive: true }
+  validates :phone, uniqueness: true
   validates :title, inclusion: { in: POSSIBLE_TITLES }
   validate :birthdate_must_be_past
 
@@ -32,7 +33,7 @@ class User < ApplicationRecord
 
   def birthdate_must_be_past
     if Date.today < birthdate
-      errors.add(:birthdate, "must be past")
+      errors.add(:birthdate, :must_be_past)
     end
   end
 

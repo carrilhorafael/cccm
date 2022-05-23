@@ -1,0 +1,102 @@
+pt-BR:
+  activerecord:
+    attributes:
+      proselyte:
+        name: "Nome do convertido"
+        phone: "Telefone"
+    errors:
+      models:
+        church:
+          attributes:
+            church:
+              taken: "Essa igreja já existe"
+            name:
+              blank: "Não pode ficar vazio"
+            location:
+              blank: "Não pode ficar vazio"
+        cult:
+          attributes:
+            responsible_name:
+              blank: "Não pode ficar vazio"
+            description:
+              too_long: "A descrição do culto deve ter no máximo %{count} caracteres"
+        ministery:
+          attributes:
+            name:
+              blank: "Não pode ficar vazio"
+            description:
+              blank: "Não pode ficar vazio"
+            church:
+              taken: "Esse ministério já existe"
+        user:
+          attributes:
+            name:
+              blank: "Não pode ficar vazio"
+            email:
+              blank: "Não pode ficar vazio"
+              taken: "Email já foi utilizado"
+            title:
+              blank: "Não pode ficar vazio"
+              inclusion: "Titulo deve ser parte da lista"
+            birthdate:
+              blank: "Não pode ficar vazio"
+              must_be_past: "Aniversário deve ser no passado"
+            marital_status:
+              blank: "Não pode ficar vazio"
+            location:
+              blank: "Não pode ficar vazio"
+            phone:
+              blank: "Não pode ficar vazio"
+              taken: "Telefone já foi utilizado"
+            password_confirmation:
+              confirmation: "Deve ser igual à senha"
+        proselyte:
+          attributes:
+            name:
+              blank: "Não pode ficar vazio"
+            phone:
+              blank: "Não pode ficar vazio"
+  actions:
+    church:
+      create:
+        president_pastor_required: "Só o pastor presidente pode efetuar essa ação"
+      destroy:
+        president_pastor_required: "Só o pastor presidente pode efetuar essa ação"
+      update:
+        president_pastor_required: "Só o pastor presidente pode efetuar essa ação"
+    cult:
+      create:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      update:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      destroy:
+        forbidden: "Você não tem permissão de administrador da igreja"
+    ministery:
+      create:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      update:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      destroy:
+        forbidden: "Você não tem permissão de administrador da igreja"
+    proselyte:
+      create:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      update:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      destroy:
+        forbidden: "Você não tem permissão de administrador da igreja"
+    user:
+      create:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      update:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      destroy:
+        forbidden: "Você não tem permissão de administrador da igreja"
+      login:
+        not_found: "Usuário não encontrado, verifique o email digitado"
+        without_access: "Esse usuário não tem acesso ao sistema, entre em contato com seu pastor"
+        incorrect_password: "Senha incorreta. Tente novamente ou recupere sua senha."
+      reset:
+        without_access: "Esse usuário não tem acesso ao sistema, entre em contato com seu pastor"
+        token_invalid: "Esse token expirou. Entre em contato com seu pastor para gerar um novo token."
+

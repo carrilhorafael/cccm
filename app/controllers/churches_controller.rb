@@ -26,7 +26,7 @@ class ChurchesController < ApplicationController
     if action.success?
       render json: action.church, status: :created
     else
-      render json: { message: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -37,7 +37,7 @@ class ChurchesController < ApplicationController
     if action.success?
       render json: action.church
     else
-      render json: { error: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -46,7 +46,7 @@ class ChurchesController < ApplicationController
     action = Church::Destroy.call(church: @church, performer: current_user)
 
     unless action.success?
-      render json: { error: action.error }, status: 422
+      render json: action.errors, status: 422
     end
   end
 

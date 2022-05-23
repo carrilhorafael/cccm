@@ -8,7 +8,7 @@ class Ministery < ApplicationRecord
 
   def ministery_must_be_uniqueness_by_church
     if church.ministeries.where(name: self.name).length != 0
-      self.errors.add(:ministery, "esse ministerio já existe para essa igreja")
+      self.errors.add(:ministery, :taken)
     end
   end
 

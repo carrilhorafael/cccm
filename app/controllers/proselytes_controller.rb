@@ -1,7 +1,7 @@
 class ProselytesController < ApplicationController
   before_action :set_church, only: :index
   before_action :set_cult, only: :create
-  before_action :set_proselyte, only: :destroy
+  before_action :set_proselyte, only: [:update, :destroy]
 
   # GET /proselytes
   def index
@@ -12,7 +12,11 @@ class ProselytesController < ApplicationController
 
   # POST /proselytes
   def create
-    action = Proselyte::Create.call(cult: @cult, performer: current_user, proselyte_params: proselyte_params)
+    action = Proselyte::Create.call(
+      cult: @cult,
+      performer: current_user,
+      proselyte_params: proselyte_params
+    )
 
     if action.success?
       render json: action.proselyte, status: :created
@@ -21,9 +25,27 @@ class ProselytesController < ApplicationController
     end
   end
 
+  def update
+    action = Proselyte::Update.call(
+      proselyte: @proselyte,
+      performer: current_user,
+      proselyte_params: proselyte_params
+    )
+
+    if action.success?
+      render json: action.proselyte
+    else
+      render json: action.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /proselytes/1
   def destroy
-    @proselyte.destroy
+    action = Proselyte::Destroy.call(proselyte: @proselyte, performer: current_user)
+
+    unless action.success?
+      render json: action.errors, status: 422
+    end
   end
 
   private
@@ -38,6 +60,6 @@ class ProselytesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def proselyte_params
-      params.require(:proselyte).permit(:name, :proselytized_at, :phone, :church_id)
+      params.require(:proselyte).permit(:name, :proselytized_at, :phone)
     end
 end

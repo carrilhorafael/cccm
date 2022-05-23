@@ -1,9 +1,4 @@
-class User::Base
-  include Interactor
-
-  def performer
-    context.performer
-  end
+class User::Base < AbstractInteractor
 
   def user
     context.user
@@ -19,5 +14,13 @@ class User::Base
 
   def skip_mailer_notification
     context.skip_mailer_notification
+  end
+
+  def validate_model
+    context.fail!(errors: user.errors) unless user.valid?
+  end
+
+  def user_params
+    context.user_params
   end
 end

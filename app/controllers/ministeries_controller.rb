@@ -28,7 +28,7 @@ class MinisteriesController < ApplicationController
     if action.success?
       render json: action.membership, status: :created
     else
-      render json: { message: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -48,22 +48,35 @@ class MinisteriesController < ApplicationController
     if action.success?
       render json: action.ministery, status: :created
     else
-      render json: { message: action.error }, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /ministeries/1
   def update
-    if @ministery.update(ministery_params)
-      render json: @ministery
+    action = Ministery::Update.call(
+      performer: current_user,
+      ministery: @ministery,
+      ministery_params: ministery_params
+    )
+
+    if action.success?
+      render json: action.ministery
     else
-      render json: @ministery.errors, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /ministeries/1
   def destroy
-    @ministery.destroy
+    action = Ministery::Destroy.call(
+      performer: current_user,
+      ministery: @ministery
+    )
+
+    if action.fail?
+      render json: action.errors, status: :unprocessable_entity
+    end
   end
 
   private

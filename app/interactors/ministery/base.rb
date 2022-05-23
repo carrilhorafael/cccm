@@ -1,5 +1,4 @@
-class Ministery::Base
-  include Interactor
+class Ministery::Base < AbstractInteractor
 
   def ministery
     context.ministery
@@ -9,7 +8,11 @@ class Ministery::Base
     context.church
   end
 
-  def performer
-    context.performer
+  def ministery_params
+    context.ministery_params
+  end
+
+  def validate_model
+    context.fail!(errors: ministery.errors) unless ministery.valid?
   end
 end

@@ -10,18 +10,6 @@ class UsersController < ApplicationController
     render json: @users
   end
 
-  # def generate_card
-  #   # html = render_to_string(:action => :show, :template => "users/member_id.pdf.erb")
-  #   # binding.pry
-  #   # pdf = WickedPdf.new.pdf_from_string(html)
-  #   # send_data(pdf,
-  #   #   :filename => "my_pdf_name.pdf",
-  #   #   :disposition => 'attachment')
-  #   # render pdf: 'member_id.pdf', layout: 'users/member_id.html.erb'
-  #   binding.pry
-
-  # end
-
   # GET /users/1
   def show
     render json: @user
@@ -39,7 +27,7 @@ class UsersController < ApplicationController
     if action.success?
       render json: action.user, status: :created
     else
-      render json: {message: action.error}, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -55,7 +43,7 @@ class UsersController < ApplicationController
     if action.success?
       render json: action.user
     else
-      render json: {message: action.error}, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 
@@ -69,7 +57,7 @@ class UsersController < ApplicationController
     if action.success?
       render json: action.user
     else
-      render json: {message: action.error}, status: :unprocessable_entity
+      render json: action.errors, status: :unprocessable_entity
     end
   end
 

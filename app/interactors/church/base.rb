@@ -1,16 +1,15 @@
-class Church::Base
-  include Interactor
+class Church::Base < AbstractInteractor
 
   def church
     context.church
   end
 
-  def performer
-    context.performer
+  def check_authorization
+    context.fail!(errors: error_message(:president_pastor_required)) unless performer.president_pastor?
   end
 
-  def check_authorization
-    context.fail!(error: "Somente o pastor presidente ou um líder da igreja podem executar essa ação") unless church.can_edit?(performer)
+  def validate_model
+    context.fail!(errors: church.errors) unless church.valid?
   end
 
   def church_params

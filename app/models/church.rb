@@ -2,13 +2,14 @@ class Church < ApplicationRecord
   has_many :ministeries, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :proselytes, dependent: :destroy
+  has_many :cults, dependent: :destroy
 
   validates :name, :location, presence: true
   validate :church_must_be_unique, on: [:create, :update]
 
   def church_must_be_unique
     if Church.where(name: self.name, location: self.location).length > 0
-      self.errors.add(:church, 'Essa igreja já existe')
+      self.errors.add(:church, :taken)
     end
   end
 

@@ -13,16 +13,8 @@ class User::Update < User::Base
 
   private
 
-  def check_authorization
-    context.fail!(error: "Você não apagar usuários do sistema com esse nível de permissão") unless church.can_edit?(performer)
-  end
-
   def assign_attributes
     user.assign_attributes(context.user_params.except(:ministeries_ids))
-  end
-
-  def validate_model
-    context.fail!(error: user.errors.full_messages.join(". ")) unless user.valid?
   end
 
   def update_access
@@ -43,7 +35,7 @@ class User::Update < User::Base
       )
     end
 
-    context.fail!(error: action.error) unless action.success?
+    context.fail!(errors: action.errors) unless action.success?
   end
 
   def ministeries_ids

@@ -4,10 +4,4 @@ class User::Destroy < User::Base
     check_authorization
     user.destroy!
   end
-
-  private
-
-  def check_authorization
-    context.fail!(error: "Você não apagar usuários do sistema com esse nível de permissão") unless church.can_edit?(performer)
-  end
 end
