@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 
   def verify_authenticated
-    render json: {message: "Permissao Negada, faça login primeiro"}, status: 401 and return unless current_user.present?
+    render json: [{ error: I18n.t('controllers.base.unauthorized') }], status: 401 and return unless current_user.present?
   end
 
   def current_user
@@ -16,13 +16,13 @@ class ApplicationController < ActionController::API
   end
 
   def validate_user
-    render json: { message: "Não é mais válido" }, status: 403 and return if !current_user
+    render json: [{ error: I18n.t('controllers.base.validate_user.token_invalid') }], status: 403 and return if !current_user
 
     action = User::Login.call(user: current_user)
     if action.success?
       render json:  { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: ChurchSerializer.new(action.user.church)}
     else
-      render json: { message: action.error }, status: 403
+      render json: action.errors, status: 403
     end
   end
 

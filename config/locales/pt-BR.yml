@@ -1,4 +1,9 @@
 pt-BR:
+  controllers:
+    base:
+      validate_user:
+        token_invalid: "Chave de autenticação invalida, faça login novamente."
+        unauthorized: "Acesso negado. Faça login primeiro."
   activerecord:
     attributes:
       proselyte:
