@@ -31,7 +31,7 @@ class User::Create < User::Base
   end
 
   def create_default_filter
-    action = Filter::Create.call(performer: user, default_filter_params)
+    action = Filter::Create.call(performer: user, filter_params: default_filter_params)
 
     unless action.success?
       context.fail!(errors: action.errors)
