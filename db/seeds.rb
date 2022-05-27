@@ -99,13 +99,24 @@ Church.find_each do |church|
     end
   end
 
-  (0...200).to_a.each do
-    Proselyte.create!(
-      church: church,
-      name: Faker::Name.name,
-      phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
-      proselytized_at: Faker::Date.between(from: Date.today.beginning_of_month - 11.month, to: Date.today)
+  (0...6).to_a.each do |t|
+    beginning_of_month = Date.today.beginning_of_month - t.month
+    Cult.create!(
+      date_of: beginning_of_month,
+      responsible_name: "Pr Julio",
+      church: church
     )
+  end
+
+  Cult.find_each do |cult|
+    (0..50).to_a.each do
+      Proselyte.create!(
+        cult: cult,
+        name: Faker::Name.name,
+        phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}"
+      )
+    end
+
   end
 end
 
