@@ -31,7 +31,8 @@
   is_leader: true
 )
 Filter::Create.call(
-  performer: @julio
+  performer: @julio,
+  filter_params: { source: 'users' }
 )
 
 
