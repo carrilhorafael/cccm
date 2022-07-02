@@ -7,8 +7,8 @@ class Ministery < ApplicationRecord
   validate :ministery_must_be_uniqueness_by_church
 
   def ministery_must_be_uniqueness_by_church
-    if church.ministeries.where(name: self.name).length != 0
-      self.errors.add(:ministery, :taken)
+    if church.ministeries.where(name: self.name).any?
+      self.errors.add(:name, :taken)
     end
   end
 

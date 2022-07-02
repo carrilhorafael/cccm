@@ -13,7 +13,7 @@ class User::Reset < User::Base
   private
 
   def find_user
-    context.user = User.find_by(validation_token: context.key)
+    context.user = User.find_by!(validation_token: context.key)
   end
 
   def check_consistency

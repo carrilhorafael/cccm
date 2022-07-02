@@ -5,7 +5,7 @@ class Ministery::Base < AbstractInteractor
   end
 
   def church
-    context.church
+    context.church || ministery.church
   end
 
   def ministery_params

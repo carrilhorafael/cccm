@@ -29,10 +29,9 @@ pt-BR:
           attributes:
             name:
               blank: "Não pode ficar vazio"
+              taken: "Esse ministério já existe"
             description:
               blank: "Não pode ficar vazio"
-            church:
-              taken: "Esse ministério já existe"
         user:
           attributes:
             name:
