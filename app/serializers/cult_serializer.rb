@@ -1,4 +1,5 @@
 class CultSerializer < ActiveModel::Serializer
-  attributes :id, :date_of, :responsible_name, :description
+  attributes :id, :name, :date_of, :description
   has_many :proselytes
+  belongs_to :responsible
 end

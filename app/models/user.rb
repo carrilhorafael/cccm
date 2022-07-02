@@ -6,6 +6,7 @@ class User < ApplicationRecord
   belongs_to :church
   has_many :ministeries, through: :memberships
   has_many :filters, dependent: :destroy
+  has_many :cults, dependent: :destroy
 
   validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
