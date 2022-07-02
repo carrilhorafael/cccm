@@ -3,7 +3,7 @@ class AuthController < ApplicationController
     action = User::Login.call(email: params[:user][:email], password: params[:user][:password])
 
     if action.success?
-      render json: { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: action.user.church}
+      render json: { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: ChurchSerializer.new(action.user.church) }
     else
       render json: action.errors, status: :unprocessable_entity
     end
