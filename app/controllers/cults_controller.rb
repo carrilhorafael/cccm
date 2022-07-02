@@ -4,7 +4,7 @@ class CultsController < ApplicationController
 
   # GET /cults
   def index
-    @cults = Cult.all
+    @cults = @church.cults
 
     render json: @cults
   end
