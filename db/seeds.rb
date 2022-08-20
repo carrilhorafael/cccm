@@ -76,7 +76,7 @@ Church.find_each do |church|
       email: Faker::Internet.email,
       title: User::POSSIBLE_TITLES[rand(1..3)],
       phone: "(21)9#{rand(7000..9999)}-#{rand(1000..9999)}",
-      birthdate: Faker::Date.between(from: '1960-01-01', to: '2002-12-12'),
+      birthdate: Faker::Date.between(from: '1960-01-01', to: '2018-12-12'),
       marital_status: rand(0..4),
       gender: rand(0..1),
       location: Faker::Address.full_address,

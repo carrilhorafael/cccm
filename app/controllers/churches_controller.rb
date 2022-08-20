@@ -9,6 +9,10 @@ class ChurchesController < ApplicationController
     render json: @churches
   end
 
+  def show
+    render json: @church, serializer: ChurchInformationsSerializer
+  end
+
   def resume
     render json: {
       users_grouped_by_birthdate_month: @church.users_grouped_by_birthdate_month,
@@ -53,7 +57,7 @@ class ChurchesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_church
-      @church = Church.find_by(id: params[:church_id]) || Church.find(params[:id])
+      @church = Church.can_view(current_user).find_by(id: params[:church_id]) || Church.can_view(current_user).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
