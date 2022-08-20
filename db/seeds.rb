@@ -104,7 +104,7 @@ Church.find_each do |church|
     beginning_of_month = Date.today.beginning_of_month - t.month
     Cult.create!(
       date_of: beginning_of_month,
-      responsible_name: "Pr Julio",
+      responsible: @julio,
       church: church
     )
   end
