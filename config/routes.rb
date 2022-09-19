@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   resources :cults, only: [:destroy, :update] do
     resources :proselytes, only: :create
   end
-  resources :filters, only: [:update, :create]
+  resource :current_user do
+    resource :filter, only: [:show, :update, :create]
+  end
   resources :users, except: [:index, :create] do
     get 'member_card', to: 'cards#member_card'
+
   end
   resources :churches do
     get 'resume'

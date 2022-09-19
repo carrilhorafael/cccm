@@ -1,5 +1,10 @@
 class FiltersController < ApplicationController
-  before_action :set_filter, only: :update
+  before_action :verify_authenticated
+  before_action :set_filter, only: [:show, :update]
+
+  def show
+    render json: @filter
+  end
 
   def create
     action = Filter::Create.call(
@@ -28,11 +33,10 @@ class FiltersController < ApplicationController
     end
   end
 
-
   private
 
   def set_filter
-    @filter = current_user.filters.find(params[:id])
+    @filter = current_user.filter
   end
 
   def filter_params

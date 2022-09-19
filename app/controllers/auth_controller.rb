@@ -19,7 +19,7 @@ class AuthController < ApplicationController
     )
 
     if action.success?
-      render json: { token: action.token, user: UserSerializer.new(action.user), filter: action.user.filter, church: ChurchSerializer.new(action.user.church) }
+      render json: { token: action.token, user: UserSerializer.new(action.user), church: ChurchSerializer.new(action.user.church) }
     else
       render json: action.errors, status: :unprocessable_entity
     end
