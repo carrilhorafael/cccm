@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :filters, dependent: :destroy
   has_many :cults, dependent: :destroy
 
-  validates :name, :email, :birthdate, :marital_status, :location, :phone, presence: true
+  validates :name, :email, :birthdate, :marital_status, :gender, :location, :phone, presence: true
   validates :password_confirmation, presence: true, :if => :password
   validates :email, uniqueness: { case_sensitive: true }
   validates :phone, uniqueness: true
@@ -33,7 +33,7 @@ class User < ApplicationRecord
   end
 
   def birthdate_must_be_past
-    if Date.today < birthdate
+    if !birthdate && Date.today < birthdate
       errors.add(:birthdate, :must_be_past)
     end
   end
